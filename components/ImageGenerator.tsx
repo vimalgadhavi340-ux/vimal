@@ -21,14 +21,11 @@ interface ImageGeneratorProps {
 }
 
 const AVATARS = [
-  // Gradients
-  "linear-gradient(135deg, #6366f1, #a855f7)", // Indigo-Purple
-  "linear-gradient(135deg, #3b82f6, #06b6d4)", // Blue-Cyan
-  "linear-gradient(135deg, #ec4899, #f43f5e)", // Pink-Rose
-  "linear-gradient(135deg, #10b981, #3b82f6)", // Emerald-Blue
-  "linear-gradient(135deg, #f59e0b, #ef4444)", // Amber-Red
-  
-  // Trending Cartoon/3D Avatars
+  "linear-gradient(135deg, #6366f1, #a855f7)",
+  "linear-gradient(135deg, #3b82f6, #06b6d4)",
+  "linear-gradient(135deg, #ec4899, #f43f5e)",
+  "linear-gradient(135deg, #10b981, #3b82f6)",
+  "linear-gradient(135deg, #f59e0b, #ef4444)",
   "https://api.dicebear.com/9.x/adventurer/svg?seed=Felix",
   "https://api.dicebear.com/9.x/adventurer/svg?seed=Aneka", 
   "https://api.dicebear.com/9.x/notionists/svg?seed=Alexander",
@@ -42,16 +39,14 @@ const AVATARS = [
 export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName = "Pro Creator" }) => {
   const [mode, setMode] = useState<GenMode>('text');
   
-  // User Profile State
   const [userName, setUserName] = useState(initialUserName);
-  const [userAvatar, setUserAvatar] = useState(AVATARS[5]); // Default to a cartoon avatar
+  const [userAvatar, setUserAvatar] = useState(AVATARS[5]);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [tempName, setTempName] = useState(initialUserName);
   
   const [prompt, setPrompt] = useState('');
   const [negativePrompt, setNegativePrompt] = useState('');
   const [seed, setSeed] = useState<number | undefined>(undefined);
-  // New Advanced State
   const [creativity, setCreativity] = useState<number>(0.8);
   const [rawMode, setRawMode] = useState<boolean>(false);
   
@@ -62,7 +57,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
   const [resolution, setResolution] = useState<ImageResolution>("1K");
   const [stylePreset, setStylePreset] = useState(STYLE_PRESETS[1].id);
 
-  // New Creative Filters State
   const [environment, setEnvironment] = useState('none');
   const [character, setCharacter] = useState('none');
   const [camera, setCamera] = useState('none');
@@ -106,7 +100,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
   };
 
   const handleNewProject = () => {
-    // Clear all creative inputs but keep history
     setPrompt('');
     setNegativePrompt('');
     setSeed(undefined);
@@ -130,7 +123,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
         console.warn("Remix currently only supports base64 images");
         return;
     }
-    
     const [meta, data] = img.url.split(',');
     const mimeType = meta.split(':')[1].split(';')[0];
     
@@ -312,7 +304,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
 
   const renderAvatarCircle = (avatar: string, sizeClass = "w-9 h-9", iconSizeClass = "w-5 h-5", isSelected = false) => {
       const isImage = avatar.startsWith('http');
-      
       return (
         <div className={`${sizeClass} rounded-full overflow-hidden flex-shrink-0 flex items-center justify-center border transition-all relative ${isSelected ? 'border-indigo-500 scale-110 shadow-[0_0_10px_rgba(99,102,241,0.5)]' : 'border-white/10 shadow-sm'}`} style={{ background: !isImage ? avatar : undefined }}>
             {isImage ? (
@@ -330,8 +321,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
   };
 
   return (
-    // Mobile Scroll Fix: Use h-[100dvh] instead of min-h-screen to accurately fit mobile viewports
-    // Ensure overflow is hidden on parent, and child handles scroll
     <div className="h-[100dvh] w-full flex flex-col md:flex-row bg-[#050505] text-white overflow-hidden font-sans selection:bg-indigo-500/30 selection:text-white">
       
       {/* Sidebar / History (Desktop) */}
@@ -381,7 +370,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
             )}
         </div>
 
-        {/* User Profile Section - Footer */}
         <div className="p-4 border-t border-white/5 bg-[#0a0a0a]">
              <div 
                 onClick={() => {
@@ -400,7 +388,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
         </div>
       </div>
 
-      {/* Profile Edit Modal */}
       {showProfileModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in p-4">
            <div className="bg-[#18181b] border border-white/10 rounded-2xl w-full max-w-sm p-6 shadow-2xl scale-100 animate-in zoom-in-95">
@@ -449,9 +436,8 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
         </div>
       )}
 
-      {/* Main Content Area */}
-      {/* Mobile Scroll Fix: Ensure this takes remaining height and scrolls internally */}
-      <div className="flex-1 flex flex-col h-full overflow-y-auto relative bg-[#050505] scroll-smooth">
+      {/* Main Content Area - Updated for better mobile scrolling */}
+      <div className="flex-1 flex flex-col h-full relative bg-[#050505] overflow-y-auto scroll-smooth">
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between p-4 bg-[#050505]/80 backdrop-blur-md sticky top-0 z-20 border-b border-white/5 shrink-0">
             <div className="flex items-center gap-2 font-bold text-lg font-display">
@@ -471,9 +457,9 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
             </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-center p-4 md:p-8 max-w-6xl mx-auto w-full gap-8">
+        {/* Content Wrapper - Added extra padding bottom for mobile */}
+        <div className="flex-1 flex flex-col items-center p-4 md:p-8 max-w-6xl mx-auto w-full gap-8 pb-32">
             
-            {/* Generator Card */}
             <div className="w-full max-w-4xl space-y-6">
                 
                 {/* Tabs */}
@@ -499,7 +485,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                 <div className="relative group rounded-3xl p-1 gradient-border-mask">
                     <div className="bg-[#0e0e0e] rounded-[22px] p-6 md:p-8 space-y-6 relative z-10">
                         
-                        {/* Style Transfer Uploads */}
                         {mode === 'style' && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-3">
@@ -539,7 +524,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                             </div>
                         )}
 
-                        {/* Prompt Input */}
                         <div className="relative bg-[#18181b] rounded-2xl border border-white/5 focus-within:border-indigo-500/50 transition-colors p-4">
                             <textarea 
                                 ref={textareaRef}
@@ -550,7 +534,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                                 rows={2}
                             />
 
-                            {/* Reference Image Preview in Text Mode */}
                             {mode === 'text' && referenceImg && (
                                 <div className="mt-3 flex items-start gap-3 p-2 bg-white/5 rounded-xl border border-white/10 w-fit">
                                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-black flex-shrink-0 relative">
@@ -565,7 +548,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                             
                             <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
                                 <div className="flex gap-2">
-                                     {/* Add Reference Image Button for Text Mode */}
                                      {mode === 'text' && (
                                         <>
                                             <input type="file" ref={referenceInputRef} className="hidden" accept="image/*" onChange={(e) => handleFileSelect(e, 'reference')} />
@@ -608,7 +590,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                                 )}
                             </div>
 
-                             {/* Suggestions Popover */}
                             {showSuggestions && (
                                 <div className="absolute top-full left-0 right-0 mt-2 bg-[#18181b] border border-white/10 rounded-2xl p-4 z-20 shadow-xl shadow-black/50 animate-in fade-in slide-in-from-top-2">
                                     <div className="flex items-center justify-between mb-3">
@@ -631,7 +612,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                             )}
                         </div>
 
-                        {/* CREATIVE CONTROLS */}
                         {mode === 'text' && (
                             <div className={`bg-[#18181b]/50 rounded-xl border border-white/5 p-4 animate-in fade-in slide-in-from-top-2 backdrop-blur-sm transition-all duration-300 ${rawMode ? 'opacity-50 grayscale pointer-events-none' : 'opacity-100'}`}>
                                 <div className="flex items-center justify-between mb-3">
@@ -658,11 +638,9 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                             </div>
                         )}
 
-                        {/* Advanced Settings */}
                         {showAdvanced && (
                             <div className="space-y-4 animate-in fade-in slide-in-from-top-1">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                     {/* Creativity / Temperature */}
                                     <div className="bg-[#18181b] p-4 rounded-xl border border-white/5">
                                         <div className="flex items-center justify-between mb-3">
                                             <label className="text-xs font-medium text-gray-400">Creativity / Freedom</label>
@@ -684,7 +662,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                                         </div>
                                     </div>
                                     
-                                    {/* Raw Mode Toggle */}
                                     <div className="bg-[#18181b] p-4 rounded-xl border border-white/5 flex items-center justify-between">
                                         <div>
                                             <label className="text-xs font-medium text-white block">Raw Mode</label>
@@ -729,14 +706,11 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                             </div>
                         )}
 
-                        {/* Controls Row */}
                         <div className="flex flex-col md:flex-row gap-6 items-end md:items-center pt-2">
                             
-                            {/* Settings Group */}
                             <div className="flex-1 flex flex-col gap-4 w-full">
                                 <div className="flex gap-4 flex-wrap">
                                     
-                                    {/* Aspect Ratio Selector - Updated UI */}
                                     <div className="space-y-2">
                                         <label className="text-[10px] uppercase font-bold text-gray-500 tracking-wider ml-1">Ratio</label>
                                         <div className="flex flex-wrap gap-2 bg-[#18181b] p-1.5 rounded-xl border border-white/5">
@@ -758,7 +732,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                                         </div>
                                     </div>
 
-                                    {/* Resolution */}
                                     <div className="space-y-2">
                                         <label className="text-[10px] uppercase font-bold text-gray-500 tracking-wider ml-1">Quality</label>
                                         <div className="flex bg-[#18181b] p-1.5 rounded-xl border border-white/5 h-full items-center">
@@ -777,7 +750,6 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                                 </div>
                             </div>
 
-                            {/* Generate Button */}
                             <button
                                 onClick={handleGenerate}
                                 disabled={isGenerating || (mode === 'text' && !prompt.trim() && !referenceImg) || (mode === 'style' && (!contentImg || !styleImg))}
@@ -813,11 +785,9 @@ export const ImageGenerator: React.FC<ImageGeneratorProps> = ({ initialUserName 
                 {error && <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-200 text-sm text-center">{error}</div>}
             </div>
 
-            {/* Display Area */}
             <div className="flex-1 w-full flex flex-col items-center justify-center min-h-[400px]">
                 {currentImage ? (
                     <div className="relative group w-full h-full flex items-center justify-center p-4">
-                         {/* Glow effect behind image */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-fuchsia-500/10 blur-[100px] rounded-full pointer-events-none"></div>
                         
                         <div className={`relative z-10 overflow-hidden shadow-2xl rounded-2xl ring-1 ring-white/10 transition-all duration-700 ease-out animate-in fade-in zoom-in-95

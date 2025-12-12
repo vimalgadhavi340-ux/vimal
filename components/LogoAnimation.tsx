@@ -25,13 +25,13 @@ export const LogoAnimation: React.FC<LogoAnimationProps> = ({ onComplete }) => {
 
   return (
     <div className={`fixed inset-0 z-[100] bg-[#050505] flex items-center justify-center transition-opacity duration-700 ${stage === 3 ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-      <div className="relative">
-        {/* Glow Background */}
-        <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px] transition-all duration-1000 ${stage >= 1 ? 'scale-150 opacity-100' : 'scale-0 opacity-0'}`}></div>
+      <div className="relative transform scale-90 md:scale-100">
+        {/* Glow Background - Adjusted for mobile */}
+        <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-64 md:h-64 bg-indigo-500/20 rounded-full blur-[40px] md:blur-[80px] transition-all duration-1000 ${stage >= 1 ? 'scale-150 opacity-100' : 'scale-0 opacity-0'}`}></div>
         
-        <div className="flex items-center gap-4 relative z-10">
-            {/* The "K" Logo Animation */}
-            <div className={`relative flex items-center justify-center w-24 h-24 transition-all duration-1000 transform ${stage >= 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} ${stage === 2 ? 'translate-x-0' : ''}`}>
+        <div className="flex items-center gap-2 md:gap-4 relative z-10">
+            {/* The "K" Logo Animation - Compact Size */}
+            <div className={`relative flex items-center justify-center w-12 h-12 md:w-24 md:h-24 transition-all duration-1000 transform ${stage >= 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} ${stage === 2 ? 'translate-x-0' : ''}`}>
                 <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
                     <defs>
                         <linearGradient id="k-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -55,21 +55,21 @@ export const LogoAnimation: React.FC<LogoAnimationProps> = ({ onComplete }) => {
                         }}
                     />
                 </svg>
-                <div className={`absolute -top-2 -right-2 transition-opacity duration-1000 delay-1000 ${stage >= 1 ? 'opacity-100' : 'opacity-0'}`}>
-                    <IconSparkles className="w-6 h-6 text-indigo-400 animate-pulse" />
+                <div className={`absolute -top-1 -right-1 md:-top-2 md:-right-2 transition-opacity duration-1000 delay-1000 ${stage >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+                    <IconSparkles className="w-3 h-3 md:w-6 md:h-6 text-indigo-400 animate-pulse" />
                 </div>
             </div>
 
-            {/* Text Reveal */}
-            <div className={`overflow-hidden transition-all duration-1000 ease-out ${stage >= 2 ? 'w-48 opacity-100 ml-2' : 'w-0 opacity-0'}`}>
-                <h1 className="text-5xl font-display font-bold text-white tracking-tight whitespace-nowrap">
+            {/* Text Reveal - Compact Text */}
+            <div className={`overflow-hidden transition-all duration-1000 ease-out ${stage >= 2 ? 'w-24 md:w-48 opacity-100 ml-1 md:ml-2' : 'w-0 opacity-0'}`}>
+                <h1 className="text-xl md:text-5xl font-display font-bold text-white tracking-tight whitespace-nowrap">
                     rati<span className="text-indigo-500">.</span>ai
                 </h1>
             </div>
         </div>
         
         {/* Loading Bar */}
-        <div className={`absolute -bottom-12 left-1/2 -translate-x-1/2 h-0.5 bg-gray-800 rounded-full overflow-hidden w-32 transition-opacity duration-500 ${stage >= 1 && stage < 3 ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute -bottom-10 md:-bottom-12 left-1/2 -translate-x-1/2 h-0.5 bg-gray-800 rounded-full overflow-hidden w-16 md:w-32 transition-opacity duration-500 ${stage >= 1 && stage < 3 ? 'opacity-100' : 'opacity-0'}`}>
              <div className="h-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 w-full origin-left animate-progress-loading"></div>
         </div>
       </div>
